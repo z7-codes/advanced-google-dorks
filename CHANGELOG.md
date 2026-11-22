@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.4.0 — 2026-11-21
+
+- Added `VULNERABILITY_FUNDAMENTALS.md` explaining root causes, exposure vs vulnerability, severity factors, and defensive fixes.
+- Added `articles/medium-article.md`, a publish-ready long-form write-up branded to z7-codes.
+- Aligned `LICENSE`, README, CONTRIBUTING, and release notes to a single z7-codes identity.
+- Fixed retired-operator policy mismatch across README, operator notes, and `check_dorks.py`.
+- Removed boundary-break, boolean-tradeoff, and expression-evaluation strings from the benign probe files.
+- Removed the SQL dump-content dork from the advanced exposure section.
+- Fixed `TARGET.com` noise reducers and tightened the scoped-query regex.
+- Corrected CTF wording, placeholder definitions, source credits, and defensive phrasing.
+- Expanded README navigation, categories, layout descriptions, and learning-order consistency.
+
 ## 1.3.0 — 2026-11-21
 
 - Added `research/external-references.md` with SQLi, XSS, nuclei-templates, and OWASP source review notes.

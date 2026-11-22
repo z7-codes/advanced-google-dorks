@@ -1,6 +1,6 @@
 # GHDB Category Mapping
 
-The Google Hacking Database (GHDB) is an OffSec-maintained, categorized index of search queries for publicly indexed information. It was popularized by Johnny Long and remains the reference point for "Google dorking".
+The Google Hacking Database (GHDB) is an Exploit-DB-maintained, categorized index of search queries for publicly indexed information. It remains the reference point for "Google dorking".
 
 This repo does not reproduce the GHDB verbatim. It recreates the useful categories as original, scoped, defensive patterns.
 

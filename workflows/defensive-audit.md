@@ -38,7 +38,7 @@ For real secrets or personal data:
 2. Do not copy values.
 3. Record only redacted proof.
 4. Notify the owner through the official channel.
-5. Fix, re-index check, and document.
+5. Fix, re-check indexing, and document.
 
 ## 3. Duplicate control
 

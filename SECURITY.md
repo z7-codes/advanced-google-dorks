@@ -1,5 +1,7 @@
 # Security Policy
 
+Maintained by `z7-codes`.
+
 ## Scope
 
 This repository contains public, defensive, search-query patterns. It does not perform scanning or exploitation.

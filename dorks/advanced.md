@@ -44,7 +44,7 @@ site:TARGET "confidential" after:2025-01-01 -"annual report"
 ```text
 site:TARGET filetype:env intext:"api_key" -inurl:public
 site:TARGET filetype:log intext:"token" -inurl:sample
-site:TARGET filetype:sql intext:"INSERT INTO" -inurl:demo
+site:TARGET filetype:sql -inurl:demo
 site:TARGET "BEGIN PRIVATE KEY" -inurl:docs
 site:TARGET intitle:"index of" inurl:backup
 ```

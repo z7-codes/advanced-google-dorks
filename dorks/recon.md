@@ -83,11 +83,11 @@ site:TARGET inurl:sitemap.xml
 ## Noise reducers
 
 ```text
--site:TARGET.com/blog
--site:TARGET.com/news
--site:TARGET.com/careers
--site:TARGET.com/support
--site:TARGET.com/status
+-site:TARGET/blog
+-site:TARGET/news
+-site:TARGET/careers
+-site:TARGET/support
+-site:TARGET/status
 ```
 
 ## CTF note

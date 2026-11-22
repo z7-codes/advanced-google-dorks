@@ -32,7 +32,7 @@
 
 ## 5. Dedupe
 
-Search the program and public web:
+Search the program and public web. `PROGRAM` means the program handle; `VULN_CLASS` means a short issue class such as XSS or SQLi.
 
 ```text
 program:PROGRAM PARAMETER

@@ -6,7 +6,7 @@ Goal: go from "I know a few dorks" to "I can build a repeatable, scoped, deduped
 
 | Level | Days | Focus | Files | Checkpoint |
 |---|---|---|---|---|
-| Beginner | 1–3 | Operators, scope, safe searches | `dorks/beginner.md`, `dorks/operators.md` | Build 20 scoped queries without retired operators. |
+| Beginner | 1–3 | Operators, scope, root causes, safe searches | `dorks/operators.md`, `VULNERABILITY_FUNDAMENTALS.md`, `dorks/beginner.md` | Build 20 scoped queries and explain one vulnerability root cause. |
 | Intermediate | 4–7 | Chaining, noise reduction, date windows | `dorks/intermediate.md` | Produce a recon tracker with 30 leads and dedupe notes. |
 | Validation | 8–10 | Benign probes, context mapping, stop rules | `payloads/context-probes.md`, `workflows/methodology.md` | Explain why a lead is or is not worth reporting. |
 | CTF bridge | 11–14 | Web/OSINT challenge chains | `dorks/ctf.md`, `examples/sanitized-walkthroughs.md` | Solve one practice challenge and write a sanitized walkthrough. |
@@ -31,6 +31,7 @@ Goal: go from "I know a few dorks" to "I can build a repeatable, scoped, deduped
 - No space after operator colon.
 - Every target query starts with `site:TARGET`.
 - Can explain `site:`, `filetype:`, quotes, `-`, and `OR`.
+- Can describe the four-part vulnerability model: input, assumption, sink, control.
 
 ### Gate 2 — Intermediate
 
@@ -62,13 +63,17 @@ Goal: go from "I know a few dorks" to "I can build a repeatable, scoped, deduped
 ```text
 README.md
   -> dorks/operators.md
+  -> VULNERABILITY_FUNDAMENTALS.md
   -> dorks/beginner.md
   -> dorks/intermediate.md
   -> payloads/context-probes.md
+  -> dorks/sqli.md
+  -> dorks/xss.md
   -> dorks/advanced.md
   -> dorks/ctf.md
+  -> workflows/quality-bar.md
   -> examples/sanitized-walkthroughs.md
-  -> templates/
+  -> templates/recon-tracker.md
   -> workflows/defensive-audit.md
 ```
 

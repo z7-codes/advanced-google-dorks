@@ -4,9 +4,9 @@ import re
 root = pathlib.Path(__file__).resolve().parent.parent
 check_dirs = ["dorks", "payloads", "examples", "templates"]
 skip_files = {"dorks/operators.md", "payloads/README.md"}
-retired = re.compile(r"\b(?:cache|related|link|info|inanchor|allinanchor|insubject|allintext):", re.I)
+retired = re.compile(r"\b(?:cache|related|link|info|inanchor|allinanchor):", re.I)
 space_after_colon = re.compile(r"\b(?:site|filetype|ext|intitle|inurl|intext|allintitle|allinurl|allintext):\s+", re.I)
-scoped = re.compile(r"site:(?:https?://)?(?:[a-z0-9-]+\.)*TARGET\b", re.I)
+scoped = re.compile(r"site:(?:https?://)?(?:[a-z0-9-]+\.)*TARGET(?=/|\s|$)", re.I)
 block_re = re.compile(r"```text\n(.*?)```", re.S)
 blocked = re.compile(
     r"(?:<\s*script\b|on(?:error|load|click|mouseover)\s*=|javascript:|"

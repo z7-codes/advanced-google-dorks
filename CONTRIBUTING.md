@@ -1,6 +1,6 @@
 # Contributing
 
-Pull requests are welcome.
+Maintained by `z7-codes`. Pull requests are welcome.
 
 ## Good contributions
 

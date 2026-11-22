@@ -10,14 +10,14 @@ Do not use search to short-circuit a live CTF or retrieve another team's flag.
 
 ## CTF categories first
 
-| Category | Typical clue | Tool first |
+| Category | Typical clue | First tool |
 |---|---|---|
 | Web | A URL, param, or challenge box | Browser + `robots.txt`, source, dorks |
-| OSINT / SOMINT | Name, username, email, profile | Manual search chains |
+| OSINT / SOCMINT | Name, username, email, profile | Manual search chains |
 | GEOINT | Photo, map, skyline, sign | Reverse image search, maps |
 | IMINT | Provided image/file | `exiftool`, `strings`, `binwalk` |
 | Threat intel | Domain, IP, certificate, IOC | CT logs, passive DNS, writeups |
-| Forensic | Archive, disk, memory, logs | File carving and timeline tools |
+| Forensics | Archive, disk, memory, logs | File carving and timeline tools |
 
 Dorks are mainly useful for Web, OSINT, and post-event learning.
 
@@ -40,7 +40,7 @@ Common challenge patterns from public writeups include `robots.txt` hints, expos
 
 ## OSINT challenge chains
 
-Replace `HANDLE` with a challenge-provided identifier:
+Replace `HANDLE` with a challenge-provided identifier. Elsewhere, `CHALLENGE_DOMAIN` means the domain supplied by the challenge:
 
 ```text
 "HANDLE" site:github.com
@@ -103,6 +103,4 @@ Use these to learn methodology, not to copy flags into a live scoreboard.
 - `https://ctftime.org/writeups`
 - `https://github.com/google/google-ctf`
 - `https://hackerdna.com/blog/google-dorking`
-- `https://cyb3r-bo1.github.io/posts/scriptCTF_2026_writeup`
-- `https://medium.com/@Fr1cTioN/maltego-community-osint-ctf-2026-writeup-osint-using-news-and-reverse-image-search-google-lens-e9688ab13426`
 - `https://ctftime.org/writeup/29295`

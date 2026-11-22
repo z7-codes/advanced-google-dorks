@@ -44,7 +44,7 @@ request path
 query string
 status code
 referrer
-user agent
+User-Agent
 source IP
 response size
 matched rule
