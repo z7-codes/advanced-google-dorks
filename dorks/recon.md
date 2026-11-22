@@ -2,7 +2,19 @@
 
 Use only on domains inside your authorization scope.
 
+## Tier A baseline
+
+```text
+site:TARGET
+site:TARGET -site:TARGET/blog
+site:TARGET filetype:pdf
+site:TARGET after:2024-01-01
+```
+
 ## Asset discovery
+
+GHDB categories: **Footholds**, **Web Server Detection**, **Vulnerable Servers**.
+
 ```text
 site:TARGET
 site:TARGET -www
@@ -16,6 +28,7 @@ site:TARGET inurl:internal
 ```
 
 ## Endpoint discovery
+
 ```text
 site:TARGET inurl:/api/
 site:TARGET inurl:/v1/
@@ -28,7 +41,23 @@ site:TARGET ext:json
 site:TARGET ext:xml
 ```
 
+## Authentication-surface inventory
+
+GHDB category: **Pages Containing Login Portals**.
+
+```text
+site:TARGET intitle:"login"
+site:TARGET intitle:"sign in"
+site:TARGET inurl:admin
+site:TARGET inurl:wp-admin
+site:TARGET inurl:/auth/
+site:TARGET inurl:/sso/
+```
+
+Inventory only. Do not attempt access on unauthorized admin panels.
+
 ## Technology fingerprinting
+
 ```text
 site:TARGET intitle:"index of"
 site:TARGET intext:"Powered by"
@@ -40,23 +69,31 @@ site:TARGET inurl:drupal
 site:TARGET inurl:laravel
 ```
 
-## Documentation / public keys
+## Documentation / public artifacts
+
 ```text
 site:TARGET ext:pdf
 site:TARGET ext:doc OR ext:docx
 site:TARGET ext:xls OR ext:xlsx
-site:TARGET filetype:pdf "confidential" -site:gov -site:mil
+site:TARGET filetype:pdf "confidential"
 site:TARGET inurl:robots.txt
 site:TARGET inurl:sitemap.xml
 ```
 
 ## Noise reducers
+
 ```text
 -site:TARGET.com/blog
 -site:TARGET.com/news
 -site:TARGET.com/careers
 -site:TARGET.com/support
+-site:TARGET.com/status
 ```
 
+## CTF note
+
+For CTFs, replace `TARGET` with the challenge-provided domain only. See `dorks/ctf.md`.
+
 ## Rule
+
 Never turn a discovered endpoint, admin path, or document into unauthorized access. Discovery is not authorization.
