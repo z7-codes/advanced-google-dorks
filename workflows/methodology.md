@@ -25,7 +25,7 @@
 
 ## 4. Benign validation
 
-- Send `opencodetest123` first.
+- Send `zzPROBE123` first.
 - Observe reflection, encoding, error shape, and content-type.
 - Follow the ladder in `payloads/benign-markers.md`.
 - Only then consider targeted, harmless confirmation.

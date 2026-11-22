@@ -95,7 +95,7 @@ event.php?id=
 
 ## Validation sequence
 
-1. Send `opencodetest123`; observe reflection.
+1. Send `zzPROBE123`; observe reflection.
 2. Try context markers from `payloads/benign-markers.md`.
 3. Check encoding, escaping, content type, and error shape.
 4. Dedupe against program Known Issues and public writeups.

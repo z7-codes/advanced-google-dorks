@@ -6,18 +6,18 @@ Goal: learn **where** input lands before trying anything stronger. Replace value
 
 | Context | Probe | What to observe |
 |---|---|---|
-| HTML body | `opencodetest123` | Raw reflection vs encoded output. |
-| HTML body | `<b>opencodetest123</b>` | Whether tags are escaped. |
-| Attribute value | `opencodetest123" y="zzBENIGNzz` | Quote escaping and extra attributes. |
-| Attribute value | `opencodetest123' y='zzBENIGNzz` | Single-quote escaping. |
-| Attribute break | `"><b>opencodetest123</b>` | Whether the attribute boundary is escaped. |
-| Attribute break | `'"><b>opencodetest123</b>` | Whether both quote styles are handled. |
-| URL parameter | `https://example.invalid/?q=opencodetest123` | Redirect/URL encoding behavior. |
-| URL parameter | `opencodetest123?x=1&y=2` | Query splitting and decoding. |
-| JSON value | `{"probe":"opencodetest123"}` | Escaping in JSON responses. |
-| Header | `X-Probe: opencodetest123` | Whether request headers are reflected. |
-| Template | `{{opencodetest123}}` | Server-side template evaluation. |
-| Template | `${opencodetest123}` | Expression evaluation. |
+| HTML body | `zzPROBE123` | Raw reflection vs encoded output. |
+| HTML body | `<b>zzPROBE123</b>` | Whether tags are escaped. |
+| Attribute value | `zzPROBE123" y="zzBENIGNzz` | Quote escaping and extra attributes. |
+| Attribute value | `zzPROBE123' y='zzBENIGNzz` | Single-quote escaping. |
+| Attribute break | `"><b>zzPROBE123</b>` | Whether the attribute boundary is escaped. |
+| Attribute break | `'"><b>zzPROBE123</b>` | Whether both quote styles are handled. |
+| URL parameter | `https://example.invalid/?q=zzPROBE123` | Redirect/URL encoding behavior. |
+| URL parameter | `zzPROBE123?x=1&y=2` | Query splitting and decoding. |
+| JSON value | `{"probe":"zzPROBE123"}` | Escaping in JSON responses. |
+| Header | `X-Probe: zzPROBE123` | Whether request headers are reflected. |
+| Template | `{{zzPROBE123}}` | Server-side template evaluation. |
+| Template | `${zzPROBE123}` | Expression evaluation. |
 | SQL shape | `'` | Error-shape only; dedupe before reporting. |
 | SQL shape | `1' AND '1'='1` | Boolean behavior difference; do not dump data. |
 

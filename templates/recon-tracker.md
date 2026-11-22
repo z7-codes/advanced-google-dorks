@@ -25,7 +25,7 @@ Copy this table into your notes. Keep entries short and redacted.
 
 | # | Lead | Context | Probe | Response snippet | Decision |
 |---|---|---|---|---|---|
-| 1 | | HTML body | `opencodetest123` | | reflected / encoded / none |
+| 1 | | HTML body | `zzPROBE123` | | reflected / encoded / none |
 
 ## Status legend
 

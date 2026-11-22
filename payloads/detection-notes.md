@@ -9,7 +9,7 @@ For defenders auditing owned assets.
 | Spike in requests for `robots.txt`, `sitemap.xml`, `.env`, `*.bak` | Common indexed-path validation. |
 | Search-referrer traffic to old paths | Google-indexed or stale content may be exposed. |
 | Repeated 404s on backup/config filenames | Manual path validation after dorking. |
-| Requests containing `opencodetest123` or `zzBENIGNzz` | Benign recon probes from this repo. |
+| Requests containing `zzPROBE123` or `zzBENIGNzz` | Benign recon probes from this repo. |
 | Raw error pages containing stack traces | Often discoverable via index and error dorks. |
 | Directory-listing titles in search results | Misconfiguration visible externally. |
 

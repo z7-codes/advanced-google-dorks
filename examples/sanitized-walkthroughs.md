@@ -27,13 +27,13 @@ Lesson: exposure does not equal reportable if already known.
 
 ```text
 Query: site:lab.example inurl:?q=
-Probe: opencodetest123
+Probe: zzPROBE123
 ```
 
 Observation:
 
 - Marker reflected in HTML body.
-- `<b>opencodetest123</b>` returned escaped as `&lt;b&gt;...`.
+- `<b>zzPROBE123</b>` returned escaped as `&lt;b&gt;...`.
 - Attribute probes did not change context.
 
 Decision:

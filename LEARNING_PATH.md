@@ -40,7 +40,7 @@ Goal: go from "I know a few dorks" to "I can build a repeatable, scoped, deduped
 
 ### Gate 3 — Validation
 
-- Starts with `opencodetest123`, not exploit payloads.
+- Starts with `zzPROBE123`, not exploit payloads.
 - Understands HTML body, attribute, URL, JSON, and error-shape contexts.
 - Stops on sensitive data, real user data, or unclear authorization.
 

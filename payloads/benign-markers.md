@@ -13,25 +13,25 @@ Use these before any exploit-style input. Goal: see where input lands and whethe
 ## Reflection markers
 
 ```text
-opencodetest123
+zzPROBE123
 zzBENIGNzz
 ```
 
 ## HTML context markers
 
 ```text
-<b>opencodetest123</b>
-<i>opencodetest123</i>
-"><b>opencodetest123</b>
-'"><b>opencodetest123</b>
+<b>zzPROBE123</b>
+<i>zzPROBE123</i>
+"><b>zzPROBE123</b>
+'"><b>zzPROBE123</b>
 ```
 
 ## Template / expression markers
 
 ```text
-{{opencodetest123}}
-${opencodetest123}
-#{opencodetest123}
+{{zzPROBE123}}
+${zzPROBE123}
+#{zzPROBE123}
 ```
 
 ## SQL error-shape markers
@@ -39,8 +39,8 @@ ${opencodetest123}
 ```text
 '
 ''
-opencodetest123'
-opencodetest123"
+zzPROBE123'
+zzPROBE123"
 1' AND '1'='1
 1' AND '1'='2
 ```
