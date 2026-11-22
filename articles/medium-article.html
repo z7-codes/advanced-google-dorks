@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>I Built a Scope-Safe Google Dork Library — Here Is How Vulnerabilities Actually Happen</title>
+</head>
+<body>
+  <h1>I Built a Scope-Safe Google Dork Library — Here Is How Vulnerabilities Actually Happen</h1>
+
+  <p><strong>Subtitle:</strong> A practical field guide to recon, root causes, and responsible reporting — from <code>z7-codes</code>.</p>
+  <p><strong>Byline:</strong> z7-codes</p>
+  <p><strong>Tags:</strong> Bug Bounty, Cybersecurity, Web Security, Google Dorks, OSINT</p>
+
+  <p>Most “advanced Google dork” lists are not advanced. They are long.</p>
+
+  <p>They are copy-paste collections of operators, half-dead syntax, and exploit strings that teach a beginner to search loudly but think rarely. A result appears, the heart races, and the researcher asks the wrong question: “Is this a vulnerability?”</p>
+
+  <p>The better question is: <strong>“What assumption did the developer make here, and what would it take to break that assumption safely?”</strong></p>
+
+  <p>That question changed how I built <code>advanced-google-dorks</code>, a public library maintained by <code>z7-codes</code>. This article is the thinking behind it.</p>
+
+  <hr>
+
+  <h2>Search results are not findings</h2>
+
+  <p>A Google dork is a search query. It can find indexed files, parameters, error text, login panels, old paths, and accidental exposure. It cannot tell you whether a control fails.</p>
+
+  <p>A result might be:</p>
+  <ul>
+    <li>A public sample someone left online.</li>
+    <li>A patched endpoint still sitting in the index.</li>
+    <li>A blog post about the exact vulnerability class.</li>
+    <li>A Known Issue every program already triaged.</li>
+    <li>A genuine lead worth careful review.</li>
+  </ul>
+
+  <p>Treating all five the same is how researchers waste weeks and how reports get closed as duplicates.</p>
+
+  <p>So the first rule in the library is simple:</p>
+
+  <blockquote>A dork is a question. A vulnerability is an answer supported by evidence.</blockquote>
+
+  <hr>
+
+  <h2>The four-part model</h2>
+
+  <p>When I teach vulnerability fundamentals now, I reduce it to four parts.</p>
+
+  <table>
+    <thead>
+      <tr><th>Part</th><th>Question</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Trust boundary</td><td>Where does untrusted input enter?</td></tr>
+      <tr><td>Wrong assumption</td><td>What did the developer assume would always be true?</td></tr>
+      <tr><td>Powerful sink</td><td>What can that input influence?</td></tr>
+      <tr><td>Missing control</td><td>What should have stopped misuse?</td></tr>
+    </tbody>
+  </table>
+
+  <pre><code>untrusted input + wrong assumption + powerful sink + weak control = vulnerability</code></pre>
+
+  <p>Take a normal URL parameter. It enters from a browser. The developer assumes it is always numeric. It reaches a database query. There is no allowlist or parameterization. That is the shape of an injection problem.</p>
+
+  <p>Take an object ID. It enters from a request. The developer assumes a logged-in user only asks for their own records. The server looks up the record without checking ownership. That is the shape of an authorization problem.</p>
+
+  <p>Take a search box. It enters from a query string. The developer assumes the value is “just text”. The application places it into HTML without context-aware encoding. That is the shape of an output-context problem.</p>
+
+  <p>Notice the pattern. The danger is not the parameter itself. The danger is the <strong>assumption attached to it</strong>.</p>
+
+  <hr>
+
+  <h2>Root cause 1: trusting the client</h2>
+
+  <p>Browsers are not trusted environments. Mobile apps are not trusted environments. Hidden fields, API request bodies, headers, cookies, and client-side validation are all user-controlled in one way or another.</p>
+
+  <p>A hidden field that says <code>role=user</code> is not a security control. A disabled button is not a security control. A JavaScript check that blocks one form value is not a security control.</p>
+
+  <p>The server must decide what is allowed.</p>
+
+  <p>This is why object IDs, user IDs, file names, redirect targets, and prices deserve attention during recon. Not because they are automatically vulnerable, but because they are common places where developers accidentally treat client input as trusted state.</p>
+
+  <p>The defensive fix is not complicated to describe: derive identity and permissions from the authenticated session, not from whatever the request claims.</p>
+
+  <hr>
+
+  <h2>Root cause 2: output without context</h2>
+
+  <p>Cross-site scripting is often explained badly. People memorize isolated strings and move on. That misses the real lesson.</p>
+
+  <p>The same input needs different handling depending on where it lands:</p>
+  <ul>
+    <li>HTML text</li>
+    <li>HTML attribute</li>
+    <li>URL value</li>
+    <li>script data</li>
+    <li>style data</li>
+    <li>JSON</li>
+    <li>template expression</li>
+  </ul>
+
+  <p>A value that is safe in one context can be unsafe in another. That is why “remove bad words” never works. A filter cannot understand every place the value might end up.</p>
+
+  <p>The right mental model is: <strong>encode for the destination, not for the input.</strong></p>
+
+  <p>Framework autoescaping helps, but developers still break it when they build markup from strings, assign untrusted values to dangerous browser sinks, or allow user-controlled templates. For researchers, the useful observation is not “did my marker appear?” It is “where did it appear, and how was it treated?”</p>
+
+  <p>For defenders, the fix is to keep autoescaping enabled, use context-aware encoders, avoid string-built code, and test each output context as a separate regression case.</p>
+
+  <hr>
+
+  <h2>Root cause 3: data becoming structure</h2>
+
+  <p>SQL injection has the same shape. User input is supposed to be data. The application accidentally lets it become structure.</p>
+
+  <p>That happens when queries are assembled from strings instead of using parameters. It also happens with sort columns, direction keywords, table names, and filter fields that cannot always be parameterized in the usual way. Those need allowlists.</p>
+
+  <p>This is why the library categorizes SQL discovery by parameter families and error families, not by exploit recipes. Numeric IDs, category parameters, search fields, and legacy extensions are worth noting because they often sit near database access. Error text is worth classifying because it reveals a parser boundary. Neither is proof.</p>
+
+  <p>A verbose error might be excluded by the program. A public writeup might already cover the endpoint. A stack trace might be intentional in a staging subdomain. Dedupe before depth.</p>
+
+  <hr>
+
+  <h2>Root cause 4: authentication is not authorization</h2>
+
+  <p>A very common misconception sounds like this: “The endpoint requires login, so it is safe.”</p>
+
+  <p>No. Authentication only proves who the user is. Authorization decides what that user may access.</p>
+
+  <p>If an endpoint accepts an object reference and the server does not check ownership, any authenticated user may be able to request someone else's object. If an API trusts a role value from the client, any user may be able to claim a higher role. If a workflow step can be called directly, any user may be able to skip the intended path.</p>
+
+  <p>These are not exotic bugs. They are everyday design failures, and they often have clearer impact than a reflected marker in a search page.</p>
+
+  <p>When reviewing a lead, I ask:</p>
+  <ul>
+    <li>Who is supposed to access this?</li>
+    <li>Who actually can access this?</li>
+    <li>What changes when the object reference changes?</li>
+    <li>Does the server re-check permission on every action?</li>
+  </ul>
+
+  <p>If those questions are not answered by the application, the lead deserves careful attention.</p>
+
+  <hr>
+
+  <h2>Root cause 5: misconfiguration needs no exploit</h2>
+
+  <p>Some of the most useful dorks do not look for vulnerable code at all. They look for what should never have been public.</p>
+
+  <p>Backups. Logs. Environment files. Database dumps. Directory listings. Internal documents. Old administration paths. Debug outputs.</p>
+
+  <p>This is why the exposure half of the library matters as much as the injection half. A well-placed <code>site:TARGET filetype:log</code> or <code>site:TARGET intitle:"index of"</code> can reveal more real risk than a hundred speculative parameters.</p>
+
+  <p>But exposure work needs discipline. If you find credentials, personal data, or secrets:</p>
+  <ol>
+    <li>Stop opening results.</li>
+    <li>Do not copy the values.</li>
+    <li>Record only a redacted description.</li>
+    <li>Report through the official channel.</li>
+    <li>Let the owner revoke and remove.</li>
+  </ol>
+
+  <p>Turning someone's leaked data into your evidence folder is not research.</p>
+
+  <hr>
+
+  <h2>Root cause 6: secrets in places that are not secret</h2>
+
+  <p>Mobile apps, public source snippets, client bundles, and config files are full of surprises. A key embedded in a client is not private, no matter how carefully it was named.</p>
+
+  <p>When a client can read a secret, anyone who can inspect the client can read it. This turns a code-review finding into an access-control issue.</p>
+
+  <p>The right response is rotation, server-side proxying, and CI secret scanning. Not obscurity. Not renaming the variable. Not hoping nobody looks.</p>
+
+  <hr>
+
+  <h2>Root cause 7: business logic assumes honest users</h2>
+
+  <p>Applications often assume people follow the happy path.</p>
+
+  <p>They assume checkout happens in order. They assume a token is used once. They assume a discount is applied only by the UI. They assume a password-reset flow is completed in the intended sequence.</p>
+
+  <p>Then someone calls the next step directly.</p>
+
+  <p>Business logic issues are hard to automate because they require understanding intent. That is also why they can be valuable. A scanner sees endpoints. A researcher sees a workflow.</p>
+
+  <p>The defensive pattern is to treat every step as independently callable: validate state on the server, make actions idempotent, and re-check prerequisites at each transition.</p>
+
+  <hr>
+
+  <h2>A workflow that keeps me honest</h2>
+
+  <p>The library uses a simple pipeline:</p>
+
+  <pre><code>scope -&gt; dork -&gt; surface -&gt; context -&gt; benign check -&gt; dedupe -&gt; impact -&gt; report</code></pre>
+
+  <h3>1. Scope</h3>
+  <p>If the asset is not explicitly in scope, stop. No clever reasoning gets around that.</p>
+
+  <h3>2. Dork</h3>
+  <p>Use scoped queries and keep the query with the lead. Future you will forget how the result was found.</p>
+
+  <h3>3. Surface</h3>
+  <p>Record the endpoint and parameter family. Do not store sensitive content from the result page.</p>
+
+  <h3>4. Context</h3>
+  <p>Ask where the value lands before choosing any validation. HTML text, attribute, URL, JSON, and database error contexts are different.</p>
+
+  <h3>5. Benign check</h3>
+  <p>Use a harmless marker. Observe reflection, encoding, status, content type, and behavior change. One marker at a time.</p>
+
+  <h3>6. Dedupe</h3>
+  <p>Check the program's Known Issues and public writeups. A good duplicate check saves time and protects credibility.</p>
+
+  <h3>7. Impact</h3>
+  <p>Write one sentence:</p>
+
+  <pre><code>An unauthorized or lower-privileged user can [specific action] on [specific asset], causing [specific consequence] for [affected party].</code></pre>
+
+  <p>If that sentence needs the word “maybe”, it is not ready.</p>
+
+  <h3>8. Report</h3>
+  <p>Include the scope source, minimal proof, clear impact, redacted evidence, and duplicate notes. A short, exact report beats a long uncertain one.</p>
+
+  <hr>
+
+  <h2>What I deliberately left out</h2>
+
+  <p>A library like this can become dangerous very quickly.</p>
+
+  <p>So it does not include:</p>
+  <ul>
+    <li>WAF bypass strings</li>
+    <li>Filter-evasion payloads</li>
+    <li>SQL data-dump or time-delay strings</li>
+    <li>Script tags or cookie-theft strings</li>
+    <li>Exploit chains</li>
+    <li>Scanner-ready attack templates</li>
+    <li>Credential lists or leaked material</li>
+  </ul>
+
+  <p>The reason is practical, not cosmetic. A dork library should help you find surfaces and understand risk. It does not need to teach you how to break a control.</p>
+
+  <p>If a source taught me <strong>how to find and reason</strong>, it made it into the repo. If it taught me <strong>how to evade or exploit</strong>, it did not.</p>
+
+  <hr>
+
+  <h2>The defensive side is the point</h2>
+
+  <p>Every section in the library ends with a fix.</p>
+
+  <p>That is not there to sound responsible. It is there because the fastest way to understand a vulnerability is to understand the control that should have existed.</p>
+
+  <ul>
+    <li>Injection → parameterize and allowlist.</li>
+    <li>XSS → encode for output context.</li>
+    <li>IDOR → enforce object-level authorization.</li>
+    <li>Exposure → remove, revoke, purge, verify.</li>
+    <li>Secrets → rotate and move server-side.</li>
+    <li>Logic bugs → validate state transitions.</li>
+    <li>Error leakage → generic messages, private logs.</li>
+  </ul>
+
+  <p>Bug bounty and defensive engineering are not opposing disciplines. They are two sides of the same question: <strong>where did trust cross a boundary without a control?</strong></p>
+
+  <hr>
+
+  <h2>How to practice without causing harm</h2>
+
+  <p>If you are starting, do not begin with live programs.</p>
+
+  <p>Use:</p>
+  <ul>
+    <li>Assets you own.</li>
+    <li>Labs and CTF-provided domains.</li>
+    <li>Public post-event writeups.</li>
+    <li>Your own intentionally vulnerable practice app.</li>
+  </ul>
+
+  <p>Build a tracker. Save the query, URL, parameter, context, decision, and dedupe notes. Write a short explanation for every lead you discard. Discarding well is a skill.</p>
+
+  <p>When you eventually move to authorized programs, read the policy, read Known Issues, use only allowed accounts, and report only fully validated issues with clear impact.</p>
+
+  <p>Quantity is not the goal. A single clean, in-scope, non-duplicate report is worth more than twenty speculative submissions.</p>
+
+  <hr>
+
+  <h2>What is in the repo</h2>
+
+  <p><code>advanced-google-dorks</code> includes:</p>
+  <ul>
+    <li>A four-week beginner-to-advanced learning path.</li>
+    <li>A root-cause guide explaining how vulnerabilities happen.</li>
+    <li>Operator reliability tiers.</li>
+    <li>Dedicated SQLi and XSS discovery sections.</li>
+    <li>Context-aware benign probe guidance.</li>
+    <li>Error-family classification for triage.</li>
+    <li>Template-inspired lead quality checks.</li>
+    <li>Sanitized examples with fictional targets.</li>
+    <li>Recon tracker and report templates.</li>
+    <li>Defensive exposure audit and detection notes.</li>
+    <li>A local-only query generator and repository auditor.</li>
+  </ul>
+
+  <p>Everything is scoped, manual, and designed for authorized use only.</p>
+
+  <hr>
+
+  <h2>Final thought</h2>
+
+  <p>Good recon is not about collecting more queries. It is about asking better questions.</p>
+
+  <p>When you see a parameter, ask what the developer assumed. When you see an error, ask which parser spoke. When you see a file, ask why it is public. When you see a pattern, ask whether it is already known.</p>
+
+  <p>That habit turns search results into understanding — and understanding into reports that triagers respect.</p>
+
+  <p>If you want the full library, it is maintained by <code>z7-codes</code> here:</p>
+
+  <p><a href="https://github.com/z7-codes/advanced-google-dorks">https://github.com/z7-codes/advanced-google-dorks</a></p>
+
+  <p>If this helped, a few claps and a follow go a long way.</p>
+</body>
+</html>

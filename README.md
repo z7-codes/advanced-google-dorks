@@ -62,6 +62,7 @@ LEARNING_PATH.md             4-week beginner-to-advanced curriculum
 VULNERABILITY_FUNDAMENTALS.md root causes behind real vulnerabilities
 articles/
   medium-article.md           publish-ready write-up for z7-codes
+  medium-article.html         import-friendly HTML version for Medium
 research/
   sources.md                  verified public sources and conclusions
   external-references.md      source review notes and safety boundaries
@@ -109,6 +110,7 @@ LICENSE                       MIT license, z7-codes
 | Learning path | `LEARNING_PATH.md` | 4-week beginner-to-advanced plan |
 | Vulnerability guide | `VULNERABILITY_FUNDAMENTALS.md` | Root causes behind real vulnerabilities |
 | Article | `articles/medium-article.md` | Publish-ready write-up for z7-codes |
+| Article (HTML) | `articles/medium-article.html` | Import-friendly version for Medium |
 | Research | `research/sources.md` | Verified sources and key conclusions |
 | External notes | `research/external-references.md` | Source review notes and safety boundaries |
 | Operators | `dorks/operators.md` | Documented / unofficial / retired operators |

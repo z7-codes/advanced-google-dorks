@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.1 — 2026-11-21
+
+- Added `articles/medium-article.html`, a clean import-friendly version of the Medium draft.
+- Listed the HTML article in README navigation and categories.
+
 ## 1.4.0 — 2026-11-21
 
 - Added `VULNERABILITY_FUNDAMENTALS.md` explaining root causes, exposure vs vulnerability, severity factors, and defensive fixes.
