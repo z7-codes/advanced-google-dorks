@@ -10,6 +10,7 @@
 ## 2. Dork
 
 - Start with category files in `dorks/`.
+- For operator-free leads, confirm scope first with `dorks/manual-discovery.md`, then convert to a scoped query.
 - Replace `TARGET` with the in-scope domain.
 - Prefer Tier A operators from `dorks/operators.md`.
 - Save only URL, parameter name, and observed behavior.

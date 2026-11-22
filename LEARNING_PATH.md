@@ -7,7 +7,7 @@ Goal: go from "I know a few dorks" to "I can build a repeatable, scoped, deduped
 | Level | Days | Focus | Files | Checkpoint |
 |---|---|---|---|---|
 | Beginner | 1–3 | Operators, scope, root causes, safe searches | `dorks/operators.md`, `VULNERABILITY_FUNDAMENTALS.md`, `dorks/beginner.md` | Build 20 scoped queries and explain one vulnerability root cause. |
-| Intermediate | 4–7 | Chaining, noise reduction, date windows | `dorks/intermediate.md` | Produce a recon tracker with 30 leads and dedupe notes. |
+| Intermediate | 4–7 | Chaining, noise reduction, date windows, operator-free discovery | `dorks/intermediate.md`, `dorks/manual-discovery.md` | Produce a recon tracker with 30 leads and dedupe notes. |
 | Validation | 8–10 | Benign probes, context mapping, stop rules | `payloads/context-probes.md`, `workflows/methodology.md` | Explain why a lead is or is not worth reporting. |
 | CTF bridge | 11–14 | Web/OSINT challenge chains | `dorks/ctf.md`, `examples/sanitized-walkthroughs.md` | Solve one practice challenge and write a sanitized walkthrough. |
 | Advanced | 15–21 | Index fossils, differential queries, stale surfaces | `dorks/advanced.md` | Build 5 multi-step query chains with documented reasoning. |
@@ -38,6 +38,7 @@ Goal: go from "I know a few dorks" to "I can build a repeatable, scoped, deduped
 - Can combine 3–4 operators without over-filtering.
 - Can use `after:` / `before:` for stale vs recent indexed pages.
 - Can remove blog/news/support noise.
+- Can verify scope before converting an operator-free lead into a `site:TARGET` query.
 
 ### Gate 3 — Validation
 
@@ -66,6 +67,7 @@ README.md
   -> VULNERABILITY_FUNDAMENTALS.md
   -> dorks/beginner.md
   -> dorks/intermediate.md
+  -> dorks/manual-discovery.md
   -> payloads/context-probes.md
   -> dorks/sqli.md
   -> dorks/xss.md
@@ -75,6 +77,16 @@ README.md
   -> examples/sanitized-walkthroughs.md
   -> templates/recon-tracker.md
   -> workflows/defensive-audit.md
+```
+
+## Companion tool
+
+After Gate 2, use [ScopeForge](https://github.com/z7-codes/scopeforge) to practice the same workflow as a local CLI: validate scope, generate scoped plans, record leads, analyze evidence, and draft redacted reports.
+
+```bash
+python -m pip install git+https://github.com/z7-codes/scopeforge.git
+scopeforge lab localhost
+scopeforge plan main --category recon --limit 20
 ```
 
 ## Rule

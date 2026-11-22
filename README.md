@@ -6,8 +6,11 @@
 [![Research-backed](https://img.shields.io/badge/research-GHDB%20%2B%20CTF-purple)](research/sources.md)
 [![Source notes](https://img.shields.io/badge/research-output%20context-blue)](research/external-references.md)
 [![Learning path](https://img.shields.io/badge/level-beginner%20to%20advanced-blueviolet)](LEARNING_PATH.md)
+[![Companion tool](https://img.shields.io/badge/companion-ScopeForge-brightgreen)](https://github.com/z7-codes/scopeforge)
 
 A professionally curated, research-backed, scope-safe Google dork library for **authorized** bug bounty, CTF, and defensive recon.
+
+> Companion CLI: [ScopeForge](https://github.com/z7-codes/scopeforge) — scope gate, dork planner, evidence analyzer, and report drafts for authorized work.
 
 Maintained by `z7-codes`.
 
@@ -20,6 +23,7 @@ Maintained by `z7-codes`.
 - Built from public research: GHDB categories, Google documentation, practitioner guides, and CTF writeups.
 - Operator reliability split into **documented**, **undocumented**, and **retired** tiers.
 - Every target-specific query uses a `site:TARGET` placeholder.
+- Operator-free discovery track for brand/product lead sourcing, with strict scope conversion rules.
 - Full mapping of all 14 GHDB categories to safe, scoped repo sections.
 - Dedicated SQLi and XSS tracks built from source reviews, reduced to methodology only.
 - Template-inspired lead quality bar: IDs, layered matchers, exclusions, validation, dedupe.
@@ -31,6 +35,7 @@ Maintained by `z7-codes`.
 - Defensive exposure-audit and detection notes for blue teams.
 - No credential theft, no mass scanning, no auto-exploitation.
 - Local-only tooling — no network calls, no target scanning.
+- Companion CLI: `ScopeForge` for scoped query planning, lead ledger, evidence triage, and redacted report drafts.
 
 ## Start here
 
@@ -42,6 +47,7 @@ README.md
   -> VULNERABILITY_FUNDAMENTALS.md
   -> dorks/beginner.md
   -> dorks/intermediate.md
+  -> dorks/manual-discovery.md
   -> payloads/context-probes.md
   -> dorks/sqli.md
   -> dorks/xss.md
@@ -71,6 +77,7 @@ dorks/
   ghdb-mapping.md             all 14 GHDB categories mapped safely
   beginner.md                 first queries, core operators, mistakes
   intermediate.md             chaining, dates, noise reducers
+  manual-discovery.md         operator-free discovery and scope conversion
   advanced.md                 index fossils, differential queries, stale surfaces
   injection.md                SQLi / XSS / LFI parameter discovery
   sqli.md                     SQLi parameter, error, and false-positive families
@@ -117,6 +124,7 @@ LICENSE                       MIT license, z7-codes
 | GHDB map | `dorks/ghdb-mapping.md` | 14 legacy categories mapped safely |
 | Beginner | `dorks/beginner.md` | Core operators and first queries |
 | Intermediate | `dorks/intermediate.md` | Chaining, dates, noise reducers |
+| Manual discovery | `dorks/manual-discovery.md` | Operator-free lead sourcing and scope checks |
 | Advanced | `dorks/advanced.md` | Index fossils and differential chains |
 | Injection | `dorks/injection.md` | SQLi / XSS / LFI parameter discovery |
 | SQLi | `dorks/sqli.md` | Parameter families, error families, false positives |
@@ -139,6 +147,24 @@ LICENSE                       MIT license, z7-codes
 | Audit script | `scripts/check_dorks.py` | Flags unsafe patterns in dork/payload/example/template files |
 | Security | `SECURITY.md` | Allowed use and reporting |
 | License | `LICENSE` | MIT license, z7-codes |
+
+## Companion tool: ScopeForge
+
+[ScopeForge](https://github.com/z7-codes/scopeforge) turns this library into a local command-line workflow.
+
+- Validates written scopes before query planning.
+- Generates scoped queries by category with an explicit no-payload safety line.
+- Keeps a local lead ledger.
+- Analyzes recorded XSS/SQLi/exposure evidence and redacts proof text.
+- Renders Markdown report drafts.
+- Includes guided lab mode for localhost, DVWA, Juice Shop, and CTF targets.
+
+```bash
+python -m pip install git+https://github.com/z7-codes/scopeforge.git
+scopeforge --version
+```
+
+ScopeForge does not scan arbitrary domains or fire payloads. Read its [README](https://github.com/z7-codes/scopeforge#readme) and [Security Policy](https://github.com/z7-codes/scopeforge/blob/main/SECURITY.md).
 
 ## Operator policy
 
@@ -167,6 +193,8 @@ Then:
 3. Dedupe against program Known Issues and public writeups.
 4. Validate manually with minimal harmless input.
 5. Report with clear impact and reproduction steps.
+
+For discovery without `site:`, use `dorks/manual-discovery.md`. Treat third-party websites as intel only, never as testing targets.
 
 ## Generator
 
@@ -204,6 +232,7 @@ python -m py_compile scripts/*.py
 ## Rules
 
 - Own assets, written authorization, labs, or CTFs only.
+- Operator-free results are candidates only; confirm written scope before any testing.
 - No real user accounts or third-party data.
 - No automated mass requests or search-result scraping.
 - No exploitation of admin panels or credential material found via search.

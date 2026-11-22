@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.4.3 — 2026-11-22
+
+- Added companion tool intro and badge for `z7-codes/scopeforge`.
+- Linked ScopeForge from README, learning path, and category navigation.
+- Documented local install and safety boundary for the companion CLI.
+
+## 1.4.2 — 2026-11-22
+
+- Added `dorks/manual-discovery.md` for operator-free discovery, manual browsing, third-party lead handling, and scope conversion.
+- Linked the new guide from README, learning path, methodology, and release notes.
+- Reinforced that third-party websites are intel only and never testing targets.
+
 ## 1.4.1 — 2026-11-21
 
 - Added `articles/medium-article.html`, a clean import-friendly version of the Medium draft.
