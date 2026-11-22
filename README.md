@@ -1,9 +1,10 @@
-# Advanced Google Dorks
+# Advanced Google Dorks — Beginner to Advanced
 
 [![GitHub repo](https://img.shields.io/badge/GitHub-z7--codes%2Fadvanced--google--dorks-blue)](https://github.com/z7-codes/advanced-google-dorks)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Authorized testing only](https://img.shields.io/badge/scope-authorized%20only-orange)](README.md)
 [![Research-backed](https://img.shields.io/badge/research-GHDB%20%2B%20CTF-purple)](research/sources.md)
+[![Learning path](https://img.shields.io/badge/level-beginner%20to%20advanced-blueviolet)](LEARNING_PATH.md)
 
 A professionally curated, research-backed, scope-safe Google dork library for **authorized** bug bounty, CTF, and defensive recon.
 
@@ -11,36 +12,68 @@ A professionally curated, research-backed, scope-safe Google dork library for **
 
 ## Why this repo is different
 
+- Complete **beginner → intermediate → advanced** learning path.
 - Built from public research: GHDB categories, Google documentation, practitioner guides, and CTF writeups.
 - Operator reliability split into **documented**, **undocumented**, and **retired** tiers.
-- Categorized instead of one giant noisy list.
 - Every target-specific query uses a `site:TARGET` placeholder.
 - Full mapping of all 14 GHDB categories to safe, scoped repo sections.
-- CTF section for web/OSINT learning and post-event writeups.
-- Benign validation markers before any exploit-style testing.
-- Defensive exposure-audit workflow for blue teams.
+- Context-aware benign payload matrix: HTML, attribute, URL, JSON, header, and error-shape probes.
+- Sanitized walkthroughs that show reasoning without real targets.
+- Copy-ready recon tracker and report templates.
+- Automatic `check_dorks.py` audit for unscoped queries and retired operators.
+- Defensive exposure-audit and detection notes for blue teams.
 - No credential theft, no mass scanning, no auto-exploitation.
-- Local-only generator — no network calls, no target scanning.
+- Local-only tooling — no network calls, no target scanning.
+
+## Start here
+
+New to dorking? Follow this order:
+
+```text
+README.md
+  -> dorks/operators.md
+  -> dorks/beginner.md
+  -> dorks/intermediate.md
+  -> payloads/context-probes.md
+  -> dorks/advanced.md
+  -> dorks/ctf.md
+  -> examples/sanitized-walkthroughs.md
+```
+
+Full plan: `LEARNING_PATH.md`.
 
 ## Repo layout
 
 ```text
+LEARNING_PATH.md       4-week beginner-to-advanced curriculum
 research/
-  sources.md              verified public sources and conclusions
+  sources.md            verified public sources and conclusions
 dorks/
-  operators.md            Tier A/B/C operator reliability
-  ghdb-mapping.md         all 14 GHDB categories mapped safely
-  injection.md            SQLi / XSS / LFI parameter discovery
-  recon.md                asset, endpoint, auth-surface, tech discovery
-  exposure.md             defensive public-exposure checks
-  ctf.md                  CTF web/OSINT/post-event dorks
+  operators.md          Tier A/B/C operator reliability
+  ghdb-mapping.md       all 14 GHDB categories mapped safely
+  beginner.md           first queries, core operators, mistakes
+  intermediate.md       chaining, dates, noise reducers
+  advanced.md           index fossils, differential queries, high-signal chains
+  injection.md          SQLi / XSS / LFI parameter discovery
+  recon.md              asset, endpoint, auth-surface, tech discovery
+  exposure.md           defensive public-exposure checks
+  ctf.md                CTF web/OSINT/post-event dorks
 payloads/
-  benign-markers.md       harmless reflection/error probes
+  README.md             payload index and safety ladder
+  benign-markers.md     basic reflection/error markers
+  context-probes.md     context-aware benign probes
+  detection-notes.md    blue-team detection and response notes
+examples/
+  sanitized-walkthroughs.md
+templates/
+  recon-tracker.md
+  report-template.md
 workflows/
-  methodology.md          scope -> dork -> triage -> validate -> dedupe -> report
-  defensive-audit.md      blue-team exposure audit
+  methodology.md        scope -> dork -> triage -> validate -> dedupe -> report
+  defensive-audit.md    blue-team exposure audit
 scripts/
-  make_dorks.py           local-only query generator, no network calls
+  make_dorks.py         local-only query generator
+  check_dorks.py        local repo quality audit
 CHANGELOG.md
 CONTRIBUTING.md
 SECURITY.md
@@ -51,16 +84,23 @@ LICENSE
 
 | Category | File | Purpose |
 |---|---|---|
+| Learning path | `LEARNING_PATH.md` | 4-week beginner-to-advanced plan |
 | Research | `research/sources.md` | Verified sources and key conclusions |
 | Operators | `dorks/operators.md` | Documented / unofficial / retired operators |
 | GHDB map | `dorks/ghdb-mapping.md` | 14 legacy categories mapped safely |
+| Beginner | `dorks/beginner.md` | Core operators and first queries |
+| Intermediate | `dorks/intermediate.md` | Chaining, dates, noise reducers |
+| Advanced | `dorks/advanced.md` | Index fossils and differential chains |
 | Injection | `dorks/injection.md` | SQLi / XSS / LFI parameter discovery |
 | Recon | `dorks/recon.md` | Assets, endpoints, auth surface, tech stack |
 | Exposure | `dorks/exposure.md` | Defensive exposure checks |
 | CTF | `dorks/ctf.md` | CTF web/OSINT/post-event learning |
-| Payloads | `payloads/benign-markers.md` | Harmless validation markers |
+| Payload matrix | `payloads/context-probes.md` | Safe context-aware probes |
+| Examples | `examples/sanitized-walkthroughs.md` | Reasoning with fictional targets |
+| Templates | `templates/` | Tracker and report formats |
 | Workflow | `workflows/methodology.md` | End-to-end safe testing flow |
 | Defense | `workflows/defensive-audit.md` | Exposure audit and remediation |
+| Audit script | `scripts/check_dorks.py` | Finds unsafe query patterns in this repo |
 
 ## Operator policy
 
@@ -96,13 +136,31 @@ The generator is local-only. It prints queries; it does not contact Google or th
 
 ```bash
 python scripts/make_dorks.py --list
+python scripts/make_dorks.py example.com beginner
+python scripts/make_dorks.py example.com intermediate
+python scripts/make_dorks.py example.com advanced
 python scripts/make_dorks.py example.com sqli
 python scripts/make_dorks.py example.com xss recon
 python scripts/make_dorks.py example.com all
 python scripts/make_dorks.py example.com exposure --json
 ```
 
-Categories: `xss`, `sqli`, `lfi`, `recon`, `exposure`, `ctf`, `ghdb`, `all`.
+Categories: `beginner`, `intermediate`, `advanced`, `xss`, `sqli`, `lfi`, `recon`, `exposure`, `ctf`, `ghdb`, `all`.
+
+## Quality checks
+
+Run before contributing or publishing changes:
+
+```bash
+python scripts/check_dorks.py
+python -m py_compile scripts/*.py
+```
+
+`check_dorks.py` flags:
+
+- Queries containing `TARGET` without `site:TARGET`.
+- Retired Tier C operators.
+- Invalid `operator: value` spacing.
 
 ## Rules
 
@@ -111,6 +169,7 @@ Categories: `xss`, `sqli`, `lfi`, `recon`, `exposure`, `ctf`, `ghdb`, `all`.
 - No automated mass requests or search-result scraping.
 - No exploitation of admin panels or credential material found via search.
 - CTF dorks are for provided domains and post-event learning only.
+- Payloads are benign context probes, never exploit chains.
 - If sensitive data is found: stop, do not save it, report minimal redacted evidence.
 
 ## Research basis
@@ -119,7 +178,7 @@ See `research/sources.md` for the full source list, including Exploit-DB/OffSec 
 
 ## Contributing
 
-Pull requests are welcome for scoped dork categories, better noise reducers, operator corrections, CTF methodology notes, and defensive audit patterns. See `CONTRIBUTING.md`.
+Pull requests are welcome for scoped dork categories, better noise reducers, operator corrections, CTF methodology notes, examples, templates, and defensive audit patterns. See `CONTRIBUTING.md`.
 
 ## License
 

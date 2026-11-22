@@ -66,7 +66,7 @@ site:TARGET filetype:txt "PHRASE FROM CHALLENGE"
 Google is weaker here than the Wayback Machine, but these can still reveal indexed copies:
 
 ```text
-site:web.archive.org "TARGET"
+site:web.archive.org "CHALLENGE_DOMAIN"
 site:TARGET "old version"
 site:TARGET inurl:/old/
 site:TARGET inurl:/v1/

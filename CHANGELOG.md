@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.0 — 2026-11-21
+
+- Added `LEARNING_PATH.md` with a 4-week beginner-to-advanced curriculum.
+- Added `dorks/beginner.md`, `dorks/intermediate.md`, and `dorks/advanced.md`.
+- Added `payloads/README.md`, `payloads/context-probes.md`, and `payloads/detection-notes.md`.
+- Added `examples/sanitized-walkthroughs.md` with five fictional reasoning cases.
+- Added `templates/recon-tracker.md` and `templates/report-template.md`.
+- Added `scripts/check_dorks.py` to audit unscoped queries, retired operators, and spacing.
+- Expanded `scripts/make_dorks.py` with `beginner`, `intermediate`, and `advanced` categories.
+- Documented quality-check commands in README and contribution requirements.
+
 ## 1.1.0 — 2026-11-21
 
 - Added `research/sources.md` with verified source list and conclusions.

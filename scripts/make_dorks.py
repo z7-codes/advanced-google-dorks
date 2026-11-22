@@ -91,6 +91,38 @@ TEMPLATES = {
         "site:{target} inurl:/backup/",
         "site:{target} inurl:/old/",
     ],
+    "beginner": [
+        "site:{target}",
+        "site:{target} -site:{target}/blog",
+        "site:{target} filetype:pdf",
+        "site:{target} inurl:robots.txt",
+        "site:{target} \"confidential\"",
+        "site:{target} \"internal use only\"",
+        "site:{target} intitle:\"index of\"",
+        "site:{target} login OR signin",
+        "site:{target} filetype:pdf after:2024-01-01",
+    ],
+    "intermediate": [
+        "site:{target} inurl:dev -site:{target}/blog -site:{target}/news",
+        "site:{target} inurl:/api/ -inurl:/docs -inurl:/status",
+        "site:{target} intitle:\"login\" -inurl:help -inurl:support",
+        "site:{target} inurl:/v1/ OR inurl:/v2/ OR inurl:/legacy/",
+        "site:{target} filetype:env intext:\"api_key\"",
+        "site:{target} filetype:log intext:\"password\"",
+        "site:{target} inurl:?q= -site:{target}/blog",
+        "site:{target} intext:\"Powered by\" after:2024-01-01",
+    ],
+    "advanced": [
+        "site:{target}/api/",
+        "site:{target}/legacy/",
+        "site:{target} inurl:/old/ OR inurl:/archive/ OR inurl:/backup/",
+        "site:{target} inurl:/api/ -inurl:/docs after:2025-01-01",
+        "site:{target} filetype:env intext:\"api_key\" -inurl:public",
+        "site:{target} \"BEGIN PRIVATE KEY\" -inurl:docs",
+        "site:{target} intext:\"Stack trace\" filetype:txt",
+        "site:{target} intitle:\"dashboard\" -site:{target}/blog",
+        "site:{target} inurl:/router/ OR inurl:/camera/ OR inurl:/printer/",
+    ],
 }
 
 
