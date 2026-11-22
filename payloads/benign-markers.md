@@ -57,6 +57,6 @@ Many programs treat plain verbose SQL errors as Known Issues or out of scope. De
 ## Never start with
 
 - Cookie-stealing JavaScript.
-- `SLEEP()` / heavy time-based payloads.
+- Database time-delay or heavy blind-injection payloads.
 - Mass data-dump tautologies.
 - Anything touching another user's account or data.

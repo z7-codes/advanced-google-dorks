@@ -48,3 +48,34 @@ no visible change             -> likely not useful
 - A search result is never proof.
 
 Dedupe with Known Issues and public writeups before deeper testing.
+
+## OWASP-derived output-context map
+
+| Output context | Safe expectation | Defense |
+|---|---|---|
+| HTML text | Marker is displayed as text, not markup. | HTML entity encoding. |
+| HTML attribute | Quote boundaries stay intact. | Attribute-aware encoding. |
+| URL / redirect | Scheme and destination remain allowlisted. | URL validation and safe redirect mapping. |
+| Script data | Value remains quoted data, never code. | Avoid string-built code; use safe DOM APIs. |
+| Style data | Value cannot create a new rule or external URL. | Strict CSS/URL allowlisting. |
+| JSON | Value remains a string field. | Serializer-based encoding. |
+| Template expression | Marker is never evaluated. | No user-controlled template or expression evaluation. |
+
+## Dangerous contexts to record, not exploit
+
+- User input placed directly into executable script or markup.
+- User input used as an attribute name or unquoted attribute value.
+- User input used as a URL scheme or redirect target.
+- User input used as a template, expression, or include path.
+- User input used to build a database identifier or query fragment.
+
+Record the context, encoding behavior, and impact in `templates/recon-tracker.md`. Do not add filter-evasion strings or exploit chains to this repo.
+
+## Defensive notes
+
+- Encoding must match the output context; one universal filter is not enough.
+- Denylists and keyword removal are fragile.
+- Canonicalize before validation, then validate with allowlists.
+- Framework autoescaping should stay enabled.
+- WAF rules are defense-in-depth, not a substitute for correct output handling.
+- CSP, `HttpOnly` cookies, and safe DOM APIs reduce impact but do not fix the sink.

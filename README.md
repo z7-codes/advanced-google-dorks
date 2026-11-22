@@ -3,7 +3,7 @@
 [![GitHub repo](https://img.shields.io/badge/GitHub-z7--codes%2Fadvanced--google--dorks-blue)](https://github.com/z7-codes/advanced-google-dorks)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Authorized testing only](https://img.shields.io/badge/scope-authorized%20only-orange)](README.md)
-[![Research-backed](https://img.shields.io/badge/research-GHDB%20%2B%20CTF-purple)](research/sources.md)
+[![Research-backed](https://img.shields.io/badge/research-GHDB%20%2B%20CTF%20%2B%20OWASP-purple)](research/sources.md)
 [![Learning path](https://img.shields.io/badge/level-beginner%20to%20advanced-blueviolet)](LEARNING_PATH.md)
 
 A professionally curated, research-backed, scope-safe Google dork library for **authorized** bug bounty, CTF, and defensive recon.
@@ -17,10 +17,13 @@ A professionally curated, research-backed, scope-safe Google dork library for **
 - Operator reliability split into **documented**, **undocumented**, and **retired** tiers.
 - Every target-specific query uses a `site:TARGET` placeholder.
 - Full mapping of all 14 GHDB categories to safe, scoped repo sections.
+- Dedicated SQLi and XSS tracks built from source reviews, reduced to methodology only.
+- Template-inspired lead quality bar: IDs, layered matchers, exclusions, validation, dedupe.
 - Context-aware benign payload matrix: HTML, attribute, URL, JSON, header, and error-shape probes.
+- No WAF-bypass strings, exploit chains, or scanner-ready attack templates.
 - Sanitized walkthroughs that show reasoning without real targets.
 - Copy-ready recon tracker and report templates.
-- Automatic `check_dorks.py` audit for unscoped queries and retired operators.
+- Built-in `check_dorks.py` audit for unscoped queries, retired operators, and unsafe strings.
 - Defensive exposure-audit and detection notes for blue teams.
 - No credential theft, no mass scanning, no auto-exploitation.
 - Local-only tooling — no network calls, no target scanning.
@@ -35,8 +38,11 @@ README.md
   -> dorks/beginner.md
   -> dorks/intermediate.md
   -> payloads/context-probes.md
+  -> dorks/sqli.md
+  -> dorks/xss.md
   -> dorks/advanced.md
   -> dorks/ctf.md
+  -> workflows/quality-bar.md
   -> examples/sanitized-walkthroughs.md
 ```
 
@@ -48,6 +54,7 @@ Full plan: `LEARNING_PATH.md`.
 LEARNING_PATH.md       4-week beginner-to-advanced curriculum
 research/
   sources.md            verified public sources and conclusions
+  external-references.md source review notes and safety boundaries
 dorks/
   operators.md          Tier A/B/C operator reliability
   ghdb-mapping.md       all 14 GHDB categories mapped safely
@@ -55,6 +62,8 @@ dorks/
   intermediate.md       chaining, dates, noise reducers
   advanced.md           index fossils, differential queries, high-signal chains
   injection.md          SQLi / XSS / LFI parameter discovery
+  sqli.md               SQLi parameter, error, and false-positive families
+  xss.md                XSS input surfaces and output-context validation
   recon.md              asset, endpoint, auth-surface, tech discovery
   exposure.md           defensive public-exposure checks
   ctf.md                CTF web/OSINT/post-event dorks
@@ -62,6 +71,7 @@ payloads/
   README.md             payload index and safety ladder
   benign-markers.md     basic reflection/error markers
   context-probes.md     context-aware benign probes
+  sql-error-map.md      database error-family classification
   detection-notes.md    blue-team detection and response notes
 examples/
   sanitized-walkthroughs.md
@@ -70,6 +80,8 @@ templates/
   report-template.md
 workflows/
   methodology.md        scope -> dork -> triage -> validate -> dedupe -> report
+  quality-bar.md        lead IDs, matchers, exclusions, evidence
+  nuclei-style-triage.md template-inspired manual triage recipes
   defensive-audit.md    blue-team exposure audit
 scripts/
   make_dorks.py         local-only query generator
@@ -86,19 +98,25 @@ LICENSE
 |---|---|---|
 | Learning path | `LEARNING_PATH.md` | 4-week beginner-to-advanced plan |
 | Research | `research/sources.md` | Verified sources and key conclusions |
+| External notes | `research/external-references.md` | SQLi/XSS/nuclei/OWASP source review boundaries |
 | Operators | `dorks/operators.md` | Documented / unofficial / retired operators |
 | GHDB map | `dorks/ghdb-mapping.md` | 14 legacy categories mapped safely |
 | Beginner | `dorks/beginner.md` | Core operators and first queries |
 | Intermediate | `dorks/intermediate.md` | Chaining, dates, noise reducers |
 | Advanced | `dorks/advanced.md` | Index fossils and differential chains |
 | Injection | `dorks/injection.md` | SQLi / XSS / LFI parameter discovery |
+| SQLi | `dorks/sqli.md` | Parameter families, error families, false positives |
+| XSS | `dorks/xss.md` | Input surfaces and output-context validation |
 | Recon | `dorks/recon.md` | Assets, endpoints, auth surface, tech stack |
 | Exposure | `dorks/exposure.md` | Defensive exposure checks |
 | CTF | `dorks/ctf.md` | CTF web/OSINT/post-event learning |
 | Payload matrix | `payloads/context-probes.md` | Safe context-aware probes |
+| SQL errors | `payloads/sql-error-map.md` | Error-family classification only |
 | Examples | `examples/sanitized-walkthroughs.md` | Reasoning with fictional targets |
 | Templates | `templates/` | Tracker and report formats |
 | Workflow | `workflows/methodology.md` | End-to-end safe testing flow |
+| Quality bar | `workflows/quality-bar.md` | Lead IDs, matchers, exclusions, evidence |
+| Triage recipes | `workflows/nuclei-style-triage.md` | Template-inspired manual checks |
 | Defense | `workflows/defensive-audit.md` | Exposure audit and remediation |
 | Audit script | `scripts/check_dorks.py` | Finds unsafe query patterns in this repo |
 
@@ -161,6 +179,7 @@ python -m py_compile scripts/*.py
 - Queries containing `TARGET` without `site:TARGET`.
 - Retired Tier C operators.
 - Invalid `operator: value` spacing.
+- Exploitable-looking strings inside code blocks.
 
 ## Rules
 
@@ -174,7 +193,7 @@ python -m py_compile scripts/*.py
 
 ## Research basis
 
-See `research/sources.md` for the full source list, including Exploit-DB/OffSec GHDB, Google Search Help, Google Search Central, practitioner guides, CTFtime, and public CTF writeups.
+See `research/sources.md` for the core source list, and `research/external-references.md` for the SQLi/XSS, nuclei-templates, and OWASP review notes. Exploit-DB/OffSec GHDB, Google Search Help, Google Search Central, practitioner guides, CTFtime, and public CTF writeups are included.
 
 ## Contributing
 

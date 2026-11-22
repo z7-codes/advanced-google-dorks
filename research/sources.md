@@ -21,6 +21,7 @@ This repo does not copy any database verbatim. It uses public research to struct
 | 13 | scriptCTF 2026 writeup | `https://cyb3r-bo1.github.io/posts/scriptCTF_2026_writeup` | Web/OSINT challenge patterns | Example: `robots.txt` enumeration and Geo-OSINT chaining. |
 | 14 | Maltego Community OSINT CTF 2026 writeup | `https://medium.com/@Fr1cTioN/maltego-community-osint-ctf-2026-writeup-osint-using-news-and-reverse-image-search-google-lens-e9688ab13426` | OSINT category mapping | Shows GEOINT, IMINT, SOMINT, and cyber-threat-intel chains. |
 | 15 | CTFtime — I Love Google writeup | `https://ctftime.org/writeup/29295` | Classic Google/OSINT challenge | Demonstrates search-chain thinking rather than memorized dorks. |
+| 16 | External reference notes | `research/external-references.md` | SQLi/XSS source review, nuclei structure, OWASP context rules | Second-pass review; direct PDF/deck fetches were blocked, so only indexed outlines and safe defensive lessons were used. |
 
 ## Key conclusions
 
@@ -29,5 +30,6 @@ This repo does not copy any database verbatim. It uses public research to struct
 - Treat Tier B operators as useful but unstable.
 - Avoid retired operators entirely.
 - Search results are leads, never proof of a vulnerability.
+- Source material is reduced to method, context, and defense — never copied payloads or exploit chains.
 - Google sees only indexed content; absence from search does not mean absence from the target.
 - Automated bulk querying can violate Google rules; keep this repo manual and local-only.

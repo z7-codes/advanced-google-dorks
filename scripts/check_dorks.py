@@ -8,6 +8,13 @@ retired = re.compile(r"\b(?:cache|related|link|info|inanchor|allinanchor|insubje
 space_after_colon = re.compile(r"\b(?:site|filetype|ext|intitle|inurl|intext|allintitle|allinurl|allintext):\s+", re.I)
 scoped = re.compile(r"site:(?:https?://)?(?:[a-z0-9-]+\.)*TARGET\b", re.I)
 block_re = re.compile(r"```text\n(.*?)```", re.S)
+blocked = re.compile(
+    r"(?:<\s*script\b|on(?:error|load|click|mouseover)\s*=|javascript:|"
+    r"document\s*\.\s*cookie|window\s*\.\s*location|union\s+select|"
+    r"sleep\s*\(|benchmark\s*\(|pg_sleep\s*\(|waitfor\s+delay|"
+    r"information_schema|into\s+outfile|load_file\s*\()",
+    re.I,
+)
 issues = []
 files = []
 
@@ -29,6 +36,8 @@ for name in check_dirs:
                     issues.append((rel, "retired operator", line))
                 if space_after_colon.search(line):
                     issues.append((rel, "space after colon", line))
+                if blocked.search(line):
+                    issues.append((rel, "blocked payload-like string", line))
 
 print("checked_files=" + str(len(files)))
 print("issues=" + str(len(issues)))

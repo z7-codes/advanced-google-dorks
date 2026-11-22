@@ -26,7 +26,7 @@ plain marker -> HTML marker -> attribute marker -> error-shape marker -> stop
 
 - Cookie/session-stealing JavaScript.
 - SQL data-dump payloads.
-- Time-based blind payloads such as `SLEEP()`.
+- Time-based blind injection payloads.
 - SSRF/XXE/RCE chains.
 - Credential attacks or real-user data.
 - Payloads that exfiltrate or destroy anything.
